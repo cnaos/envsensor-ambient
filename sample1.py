@@ -23,6 +23,7 @@ while True:
     if data is not None:
 
         if data.tick_last_update > latest_update:
+            vars()
             print('Illumination: {} lx'.format(data.val_light))
 
         latest_update = data.tick_last_update
