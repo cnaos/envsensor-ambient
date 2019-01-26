@@ -1,4 +1,5 @@
 #! /usr/bin/env pyhton3
+from envstatus import EnvStatus
 import os
 import sys
 import time
