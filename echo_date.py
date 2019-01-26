@@ -8,8 +8,24 @@ import datetime
 
 CHECK_SPAN = int(os.environ.get('CHECK_SPAN', '10'))
 
+BLUETOOTH_DEVICEID = os.environ.get('BLUETOOTH_DEVICEID', 0)
+BLUETOOTH_DEVICE_ADDRESS = os.environ.get('BLUETOOTH_DEVICE_ADDRESS', None)
+if BLUETOOTH_DEVICE_ADDRESS is None:
+    sys.exit('No sensors found')
+
+o = EnvStatus(bt=BLUETOOTH_DEVICEID)
+uId = o.setRequest(BLUETOOTH_DEVICE_ADDRESS)
+o.start()
 
 while True:
     print('date: {}'.format(datetime.datetime.now()))
+    data = o.getLatestData(uId)
+    if data is not None:
 
+        if data.tick_last_update > latest_update:
+            print('temp: {}'.format(data.val_temp))
+            print('Illumination: {} lx'.format(data.val_light))
+
+        latest_update = data.tick_last_update
+        
     time.sleep(CHECK_SPAN)
